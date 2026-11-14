@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zora 2.0</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;color:white;
+ font-family:Arial,sans-serif;
+ background:linear-gradient(#07132777,#07101fee),
+ url("https://images.unsplash.com/photo-1511497584788-876760111969?w=1600") center/cover fixed;
+ display:flex;justify-content:center;align-items:center;padding:18px
+}
+.app{width:100%;max-width:480px;background:#101a2cdd;
+ border:1px solid #ffffff30;border-radius:25px;padding:22px;
+ box-shadow:0 0 40px #438dff33;backdrop-filter:blur(12px)}
+header{text-align:center}
+.logo{font-size:35px;color:#75baff;text-shadow:0 0 20px #438dff}
+h1{letter-spacing:5px;margin:5px}
+.sub{color:#b5c9e8;font-size:12px}
+.moon{font-size:85px;text-align:center;margin:22px 0;
+ animation:glow 3s infinite alternate}
+@keyframes glow{to{text-shadow:0 0 35px #a4d5ff}}
+h2{text-align:center;font-weight:400}
+.status{text-align:center;color:#9ed9ff;font-size:12px}
+.chat{height:230px;overflow:auto;padding:12px;
+ background:#07101b99;border-radius:15px;margin-top:18px}
+.msg{padding:11px 13px;border-radius:14px;margin:9px 0;
+ max-width:90%;line-height:1.5}
+.zora{background:#24466d}
+.user{background:#8c304b;margin-left:auto}
+.controls{display:flex;gap:8px;margin-top:12px}
+input{flex:1;min-width:0;padding:13px;border-radius:12px;
+ border:1px solid #607caa;background:#0b1424;color:white}
+button{border:0;border-radius:12px;padding:12px;
+ background:linear-gradient(120deg,#277cce,#b43b61);
+ color:white;font-weight:bold;cursor:pointer}
+.actions{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.actions button{background:#263b59}
+footer{text-align:center;color:#9db1ce;font-size:11px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="logo">✦ Z ✦</div>
+<h1>ZORA 2.0</h1>
+<div class="sub">MOONLIGHT EDITION</div>
+</header>
+
+<div class="moon">🌙</div>
+<h2>Hello, I'm Zora</h2>
+<div class="status">● Your new assistant is ready</div>
+
+<div class="chat" id="chat">
+<div class="msg zora">Hello! Welcome to my new world. How can I help you?</div>
+</div>
+
+<form class="controls" id="form">
+<input id="message" placeholder="Talk to Zora..." autocomplete="off">
+<button type="submit">Send</button>
+</form>
+
+<div class="actions">
+<button onclick="speak()">♫ Voice</button>
+<button onclick="stopVoice()">■ Stop</button>
+<button onclick="clearChat()">Clear</button>
+</div>
+
+<footer>Under the moonlight · Zora 2.0</footer>
+</div>
+
+<script>
+const chat=document.getElementById("chat");
+const input=document.getElementById("message");
+
+function addMessage(text,type){
+ const div=document.createElement("div");
+ div.className="msg "+type;
+ div.textContent=text;
+ chat.appendChild(div);
+ chat.scrollTop=chat.scrollHeight;
+}
+
+document.getElementById("form").addEventListener("submit",e=>{
+ e.preventDefault();
+ const text=input.value.trim();
+ if(!text)return;
+ addMessage(text,"user");
+ input.value="";
+ addMessage("I heard you! I'm Zora 2.0. My AI connection will be added in a later step.","zora");
+});
+
+function speak(){
+ if(!("speechSynthesis" in window))return;
+ speechSynthesis.cancel();
+ const msg=new SpeechSynthesisUtterance("Hello! I am Zora. Welcome to Moonlight Edition.");
+ msg.pitch=1.15;
+ msg.rate=0.9;
+ speechSynthesis.speak(msg);
+}
+function stopVoice(){
+ if("speechSynthesis" in window)speechSynthesis.cancel();
+}
+function clearChat(){
+ chat.innerHTML="";
+ addMessage("A fresh conversation begins. Welcome back!","zora");
+}
+</script>
+</body>
+</html>
